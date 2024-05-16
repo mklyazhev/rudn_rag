@@ -1,0 +1,6 @@
+torch~=2.3.0
+transformers~=4.40.2
+langchain~=0.1.16
+aiogram~=3.6.0
+loguru~=0.7.2
+pydantic~=2.7.1
