@@ -24,7 +24,7 @@ storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 dp.message.middleware(ChatActionMiddleware())  # Нужно для анимации набора текста у бота, когда происходит генерация ответа
 
-chunks = get_chunks("../artifacts/data/raw_data", "*.md")
+chunks = get_chunks("artifacts/data/raw_data", "*.md")
 embeddings = get_embeddings("cointegrated/rubert-tiny2")
 retriever = get_retriever(chunks, embeddings)
 llm = get_llm("IlyaGusev/saiga_llama3_8b")

@@ -2,10 +2,14 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
 
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+
 class RAG:
     def __init__(self, llm, retriever, prompt):
         self.qa_chain = (
-            {"context": retriever | self.__format_docs, "question": RunnablePassthrough()}
+            {"context": retriever | format_docs, "question": RunnablePassthrough()}
             | prompt
             | llm
             | StrOutputParser()
@@ -16,6 +20,3 @@ class RAG:
             self.qa_chain.stream(question)
 
         return self.qa_chain.invoke(question)
-
-    def __format_docs(self, docs):
-        return "\n\n".join(doc.page_content for doc in docs)
