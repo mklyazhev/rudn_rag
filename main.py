@@ -53,7 +53,7 @@ async def command_start_handler(message: Message) -> None:
 Не стесняйтесь обращаться ко мне в любое время! Я здесь, чтобы сделать вашу университетскую жизнь более удобной и приятной. 🎓✨
 """
 
-    await message.answer(text)
+    await message.answer(text, parse_mode="MARKDOWN", disable_web_page_preview=True)
 
 
 @dp.message()
