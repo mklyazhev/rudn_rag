@@ -1,6 +1,8 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.bot import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import flags
 from aiogram.filters import CommandStart
@@ -68,7 +70,7 @@ async def main():
     await log_handler.setup()
 
     # Инициализация Bot с режимом парсинга HTML (чтобы не было проблем с экранированием)
-    bot = Bot(token=config.telegram_bot_token.get_secret_value(), parse_mode="HTML")
+    bot = Bot(token=config.telegram_bot_token.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     bot_user = await bot.me()
     logger.info(f"Initialize Bot: {bot_user.full_name} [@{bot_user.username}]")
 
