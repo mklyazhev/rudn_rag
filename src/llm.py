@@ -2,7 +2,7 @@ import torch
 from torch import bfloat16
 import transformers
 from transformers import AutoTokenizer
-from langchain.llms import HuggingFacePipeline
+from langchain_community.llms import HuggingFacePipeline
 from langchain_openai import ChatOpenAI
 
 
