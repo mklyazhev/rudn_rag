@@ -3,9 +3,21 @@ from torch import bfloat16
 import transformers
 from transformers import AutoTokenizer
 from langchain.llms import HuggingFacePipeline
+from langchain_openai import ChatOpenAI
 
 
-def get_llm(model_name):
+def get_llm(model_name, use_chatgpt=False, api_key=None):
+    if use_chatgpt:
+        return get_chatgpt_llm(model_name, api_key)
+    else:
+        return get_hf_llm(model_name)
+
+
+def get_chatgpt_llm(model_name, api_key):
+    return ChatOpenAI(model=model_name, api_key=api_key)
+
+
+def get_hf_llm(model_name):
     bnb_config = transformers.BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
