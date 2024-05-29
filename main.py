@@ -29,7 +29,7 @@ dp.message.middleware(ChatActionMiddleware())  # Нужно для анимац�
 chunks = get_chunks("artifacts/data/raw_data", "*.md")
 embeddings = get_embeddings("cointegrated/rubert-tiny2")
 retriever = get_retriever(chunks, embeddings)
-llm = get_llm("IlyaGusev/saiga_llama3_8b")
+llm = get_llm(config.llm, True, config.openai_api_key.get_secret_value())
 prompt = PromptTemplate(
     template="""<|begin_of_text|><|start_header_id|>system<|end_header_id|> Ты ассистент, специализирующийся на вопросах, касающихся Российского университета дружбы народов (РУДН).
     Если вопрос не относится к РУДН, то ты должен вежливо отказать в помощи. Любые вопросы не про Российский университет дружбы народов должны остаться без ответа.
