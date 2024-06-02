@@ -29,9 +29,10 @@ dp.message.middleware(ChatActionMiddleware())  # Нужно для анимац�
 chunks = get_chunks("artifacts/data/raw_data", "*.md")
 embeddings = get_embeddings("cointegrated/rubert-tiny2")
 retriever = get_retriever(chunks, embeddings)
+use_chatgpt = False
 # IlyaGusev/saiga_llama3_8b, gpt-3.5-turbo-0125
-llm = get_llm(config.llm)
-# llm = get_llm(config.llm, True, config.openai_api_key.get_secret_value())
+llm = get_llm(config.llm, use_chatgpt=use_chatgpt)
+# llm = get_llm(config.llm, use_chatgpt=use_chatgpt, api_key=config.openai_api_key.get_secret_value())
 prompt = PromptTemplate(
     template="""<|begin_of_text|><|start_header_id|>system<|end_header_id|> Ты ассистент, специализирующийся на вопросах, касающихся Российского университета дружбы народов (РУДН).
     Если вопрос не относится к РУДН, то ты должен вежливо отказать в помощи. Любые вопросы не про Российский университет дружбы народов должны остаться без ответа.
@@ -43,7 +44,7 @@ prompt = PromptTemplate(
     Answer: <|eot_id|><|start_header_id|>assistant<|end_header_id|>""",
     input_variables=["question", "context"],
 )
-rag = RAG(llm, retriever, prompt)
+rag = RAG(llm, retriever, prompt, use_chatgpt=use_chatgpt)
 
 
 @dp.message(CommandStart())
