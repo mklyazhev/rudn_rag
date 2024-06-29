@@ -6,8 +6,8 @@ from langchain_community.llms import HuggingFacePipeline
 from langchain_openai import ChatOpenAI
 
 
-def get_llm(model_name, use_chatgpt=False, api_key=None):
-    if use_chatgpt:
+def get_llm(model_name, use_api=False, api_key=None):
+    if use_api:
         return get_chatgpt_llm(model_name, api_key)
     else:
         return get_hf_llm(model_name)
