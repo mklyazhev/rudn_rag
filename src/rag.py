@@ -20,8 +20,8 @@ def format_docs(docs):
 
 
 class RAG:
-    def __init__(self, llm, retriever, prompt, use_chatgpt=False):
-        parser = StrOutputParser() if use_chatgpt else LlamaOutputParser("<|begin_of_text|>", "<|end_header_id|>")
+    def __init__(self, llm, retriever, prompt, use_api=False):
+        parser = StrOutputParser() if use_api else LlamaOutputParser("<|begin_of_text|>", "<|end_header_id|>")
         self.qa_chain = (
             {"context": retriever | format_docs, "question": RunnablePassthrough()}
             | prompt

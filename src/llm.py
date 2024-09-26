@@ -4,17 +4,21 @@ import transformers
 from transformers import AutoTokenizer
 from langchain_community.llms import HuggingFacePipeline
 from langchain_openai import ChatOpenAI
+from langchain.chat_models.gigachat import GigaChat
 
 
-def get_llm(model_name, use_chatgpt=False, api_key=None):
-    if use_chatgpt:
-        return get_chatgpt_llm(model_name, api_key)
+def get_llm(model_name, use_api=False, api_key=None):
+    if use_api:
+        return get_api_llm(model_name, api_key)
     else:
         return get_hf_llm(model_name)
 
 
-def get_chatgpt_llm(model_name, api_key):
-    return ChatOpenAI(model=model_name, api_key=api_key)
+def get_api_llm(model_name, api_key):
+    if "gpt" in model_name:
+        return ChatOpenAI(model=model_name, api_key=api_key)
+    elif "Giga" in model_name:
+        return GigaChat(model=model_name, credentials=api_key, verify_ssl_certs=False)
 
 
 def get_hf_llm(model_name):
