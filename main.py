@@ -8,18 +8,13 @@ from aiogram import flags
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.utils.chat_action import ChatActionMiddleware
-
 from langchain.prompts import PromptTemplate
-
 from loguru import logger
 
-from src.data import get_chunks
-from src.embeddings import get_embeddings
-from src.llm import get_llm
+from src.rag_utils import get_chunks, get_embeddings, get_retriever, get_llm
 from src.rag import RAG
 from src import log_handler
 from src.config import config
-from src.retriever import get_retriever
 
 
 storage = MemoryStorage()
