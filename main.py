@@ -2,7 +2,7 @@ import asyncio
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.bot import DefaultBotProperties
-from aiogram.enums import ParseMode
+from aiogram.enums import ParseMode, ChatAction
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import flags
 from aiogram.filters import CommandStart
@@ -10,9 +10,7 @@ from aiogram.types import Message
 from aiogram.utils.chat_action import ChatActionMiddleware
 from loguru import logger
 
-from src.rag_utils import get_chunks, get_embeddings, get_retriever, get_llm
-from src.rag import RAG
-from src.prompts import RAG_PROMPT
+from src.graph.graph import (app)
 from src import log_handler
 from src.config import config
 
@@ -22,13 +20,7 @@ dp = Dispatcher(storage=storage)
 dp.message.middleware(ChatActionMiddleware())  # Нужно для анимации набора текста у бота,
                                                # когда происходит генерация ответа
 
-chunks = get_chunks("artifacts/data/lib_data", "*.md")
-embeddings = get_embeddings("cointegrated/rubert-tiny2")
-retriever = get_retriever(chunks, embeddings)
-
-# IlyaGusev/saiga_llama3_8b, Vikhrmodels/Vikhr-Llama3.1-8B-Instruct-R-21-09-24, gpt-3.5-turbo-0125, GigaChat
-llm = get_llm(config.llm, use_api=True, api_key=config.gigachat_api_key.get_secret_value())
-rag = RAG(llm, retriever, RAG_PROMPT, use_api=True)
+# # IlyaGusev/saiga_llama3_8b, Vikhrmodels/Vikhr-Llama3.1-8B-Instruct-R-21-09-24, gpt-3.5-turbo-0125, GigaChat
 
 
 @dp.message(CommandStart())
@@ -46,8 +38,9 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.message()
 @flags.chat_action(initial_sleep=0, action="typing", interval=0)
-async def cmd_new_chat_handler(message: Message) -> None:
-    answer = rag.generate(message.text)
+async def cmd_message_handler(message: Message) -> None:
+    await message.bot.send_chat_action(message.chat.id, ChatAction.TYPING)
+    answer = app.invoke(input={"question": message.text})["generation"] #rag.generate(message.text)
     await message.answer(answer, parse_mode="MARKDOWN", disable_web_page_preview=True)
 
 
