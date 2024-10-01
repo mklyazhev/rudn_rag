@@ -15,8 +15,17 @@ def generate(state: GraphState) -> Dict[str, Any]:
     Returns:
         state (dict): A dictionary containing the generated response and the question
     """
+
     logger.info("---GENERATE---")
+
     question = state["question"]
     documents = state["documents"]
-    generation = generation_chain.invoke({"context": documents, "question": question})
+    chat_history = state["chat_history"]
+
+    generation = generation_chain.invoke({
+        "context": documents,
+        "question": question,
+        "chat_history": chat_history
+    })
+
     return {"generation": generation, "documents": documents, "question": question}

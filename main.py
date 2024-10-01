@@ -8,17 +8,19 @@ from aiogram import flags
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.utils.chat_action import ChatActionMiddleware
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.messages import AIMessage, HumanMessage
 from loguru import logger
 
-from src.graph.graph import (app)
+from src.graph.graph import app
 from src import log_handler
 from src.config import config
-
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 dp.message.middleware(ChatActionMiddleware())  # Нужно для анимации набора текста у бота,
                                                # когда происходит генерация ответа
+user_history = {}
 
 # # IlyaGusev/saiga_llama3_8b, Vikhrmodels/Vikhr-Llama3.1-8B-Instruct-R-21-09-24, gpt-3.5-turbo-0125, GigaChat
 
@@ -39,8 +41,25 @@ async def command_start_handler(message: Message) -> None:
 @dp.message()
 @flags.chat_action(initial_sleep=0, action="typing", interval=0)
 async def cmd_message_handler(message: Message) -> None:
+    # Запуск анимации печатания
     await message.bot.send_chat_action(message.chat.id, ChatAction.TYPING)
-    answer = app.invoke(input={"question": message.text})["generation"] #rag.generate(message.text)
+
+    user_id = message.from_user.id
+    question = message.text
+
+    # Получаем историю чата пользователя или создаем новую
+    if user_id not in user_history:
+        user_history[user_id] = ChatMessageHistory(max_messages=30)
+
+    # Обновляем историю пользователя
+    user_history[user_id].add_message(HumanMessage(content=question))
+
+    # Передаем состояние в граф и получаем ответ
+    answer = app.invoke(input={"question": question, "chat_history": await user_history[user_id].aget_messages()})["generation"]
+
+    # Сохраняем ответ в историю
+    user_history[user_id].add_message(AIMessage(content=answer))
+
     await message.answer(answer, parse_mode="MARKDOWN", disable_web_page_preview=True)
 
 
