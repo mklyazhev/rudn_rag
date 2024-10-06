@@ -1,3 +1,4 @@
+#pysqlite3-binary==0.5.3.post1
 torch==2.2.1 # 2.2.1/2.0.1
 transformers==4.40.2
 langchain==0.1.16
@@ -5,6 +6,8 @@ langchain-chroma==0.1.1
 langchain-openai==0.1.7
 langchain-community==0.0.34
 langchain-text-splitters==0.0.2
+gigachat==0.1.35
+langgraph==0.2.14
 unstructured[md]==0.11.8
 sentence-transformers==2.7.0
 bitsandbytes==0.43.1
