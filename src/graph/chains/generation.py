@@ -1,7 +1,7 @@
 from langchain_core.output_parsers import StrOutputParser
 
 from src.utils import get_llm
-from src.prompts import GENERATION_PROMPT
+from src.graph.consts import GENERATION_PROMPT
 from src.config import config
 
 

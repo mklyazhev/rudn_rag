@@ -1,5 +1,5 @@
 from src.utils import get_llm_with_chain
-from src.prompts import ROUTER_PROMPT
+from src.graph.consts import ROUTER_PROMPT
 from src.config import config
 
 

@@ -11,6 +11,9 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.output_parsers import JsonOutputParser
 
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning, module="huggingface_hub")
+
 
 def get_chunks(docs_path, file_ext):
     loader = DirectoryLoader(docs_path, glob=file_ext, show_progress=True)

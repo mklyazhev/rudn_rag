@@ -1,4 +1,4 @@
-pysqlite3-binary==0.5.3.post1
+#pysqlite3-binary==0.5.3.post1
 torch==2.2.1 # 2.2.1/2.0.1
 transformers==4.40.2
 langchain==0.1.16
