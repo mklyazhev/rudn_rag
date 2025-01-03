@@ -8,7 +8,7 @@
 
 В проекте используется RAG (Retrieval-Augmented Generation) — подход, который сочетает поиск информации и генерацию ответов. Сначала система находит релевантные данные в базе знаний, а затем ИИ на их основе формирует связный и точный ответ. Этот метод позволяет помощнику предоставлять актуальные и контекстуально точные ответы на запросы пользователей.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8e8e1349-99ff-4101-8bfe-a846f89103ba/5454f871-5a88-4fe2-829d-ec87a9093c89/image.png)
+![image.png](images/RAG.png)
 
 Это пример простой RAG системы для задач вопроса-ответной формы. Однако эта модель не умела вещей, которые для нас были важны:
 
@@ -20,7 +20,7 @@
 
 ## RAG система с агентами
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8e8e1349-99ff-4101-8bfe-a846f89103ba/3d2a2b50-cc74-4347-8213-34570e96b3ec/image.png)
+![image.png](images/RAG_with_agent.png)
 
 ### **1. Routing (Агент релевантности запроса)**
 
@@ -83,4 +83,4 @@ git clone https://github.com/mklyazhev/rudn_rag.git
 
  python main.py
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8e8e1349-99ff-4101-8bfe-a846f89103ba/95c66780-2623-4032-b0e0-17e0f7c8d3d6/image.png)
+![image.png](images/launch.png)
