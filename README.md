@@ -77,7 +77,7 @@
 git clone https://github.com/mklyazhev/rudn_rag.git
 ```
 
-В файле .env.dist передайте ключ от GigaChat и токен телеграмм бота, а также путь к базе данных RAG
+В файле [.env.dist](https://github.com/mklyazhev/rudn_rag/blob/readme_branch/.env.dist) передайте ключ от GigaChat и токен телеграмм бота, а также путь к базе данных RAG
 
 ### Запуск
 
