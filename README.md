@@ -74,7 +74,19 @@
 Используйте следующую команду, чтобы клонировать репозиторий на свой локальный компьютер:
 
 ```
-git clone https://github.com/mklyazhev/rudn_rag.git
+git clone https://github.com/mklyazhev/rudn_rag.git -b readme_branch
+```
+
+```sh
+pip install -r requirements.txt
+pip install langgraph==0.2.14
+```
+
+В зависимости от того где запускать бота. Необходимо установить следующие штуки. В jupyter notebook можно просто скопировать и вставить в ячейку. 
+```
+import nltk
+nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger_eng')
 ```
 
 В файле [.env.dist](https://github.com/mklyazhev/rudn_rag/blob/readme_branch/.env.dist) передайте ключ от GigaChat и токен телеграмм бота, а также путь к базе данных RAG
