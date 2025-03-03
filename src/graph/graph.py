@@ -28,11 +28,11 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState):
     score = hallucination_grader.invoke(
         {"documents": documents, "generation": generation}
     )
-    if hallucination_grade := score["score"]:
+    if "yes" in score.lower():
         logger.info("---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---")
         logger.info("---CHECK ANSWER---")
         score = answer_grader.invoke({"question": question, "generation": generation})
-        if answer_grade := score["score"]:
+        if "yes" in score.lower():
             logger.info("---DECISION: ANSWER ADDRESSES THE USER QUESTION---")
             return "useful"
         else:
@@ -48,10 +48,10 @@ def route_question(state: GraphState):
     question = state["question"]
 
     source = question_router.invoke({"question": question})
-    if source["datasource"] == GENERATE:
+    if GENERATE in source.lower():
         logger.info("---DECISION: ROUTE QUESTION TO GENERATE---")
         return GENERATE
-    elif source["datasource"] == "vectorstore":
+    elif "vectorstore" in source:
         logger.info("---DECISION: ROUTE QUESTION TO RAG---")
         return RETRIEVE
 
