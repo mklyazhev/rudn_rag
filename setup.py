@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
     setup(
         name='llm_rag',
         version='0.1',
-        packages=find_packages(),
+        packages=['llm_rag'],
         install_requires=[
             'torch==2.2.1',
             'transformers==4.40.2',
