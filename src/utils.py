@@ -9,7 +9,7 @@ from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers.string import StrOutputParser
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="huggingface_hub")
@@ -93,4 +93,4 @@ def __get_hf_llm(model_name):
 def get_llm_with_chain(model_name, prompt, use_api=False, api_key=None):
     llm = get_llm(model_name, use_api, api_key)
 
-    return prompt | llm | JsonOutputParser()
+    return prompt | llm | StrOutputParser()

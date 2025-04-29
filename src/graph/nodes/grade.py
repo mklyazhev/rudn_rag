@@ -27,14 +27,14 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
         result = retrieval_grader.invoke(
             {"question": question, "document": doc.page_content}
         )
-        grade = result["score"]
-        if grade.lower() == "yes":
+        if "yes" in result.lower():
             logger.info("---DOCUMENT IS RELEVANT---")
             filtered_documents.append(doc)
         else:
             logger.info("---DOCUMENT IS NOT RELEVANT---")
-            use_web_search = True
             continue
+    if [] == filtered_documents:
+      use_web_search = True
     return {
         "documents": filtered_documents,
         "use_web_search": use_web_search,
